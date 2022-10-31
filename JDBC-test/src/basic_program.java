@@ -11,7 +11,7 @@ public class basic_program {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con=DriverManager.getConnection(
                     "jdbc:mysql://192.168.79.129:4567/madang",
-                    "hyeona-cha","skan0504@");
+                    "hyeona-cha","secret!!");
         }catch(Exception e){ System.out.println(e);}
     }
 
