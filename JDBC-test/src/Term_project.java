@@ -31,8 +31,13 @@ public class Term_project {
     public void Basic() {
         while(true) {
             System.out.println("-----------------  DB 병원  ------------------");
+            System.out.println(" [회원가입 및 확인]                             ");
             System.out.println("1. 사용자 등록                 2. 사용자 등록 확인");
-            System.out.println("3. 전체 사용자 조회             4. 사용자 목록 조회");
+            System.out.println("3. 전체 사용자 조회                             ");
+            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println(" [우리병원 진료과목]                             ");
+            System.out.println("4. 진료과목 조회                                ");
+            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println("---------------------------------------------");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -40,9 +45,10 @@ public class Term_project {
                 case 1 : User_Insert(); break;
                 case 2 : User_list();break;
                 case 3 : User_View();break;
+                case 4 : medical_View();break;
                 default : System.out.println("종료");
             }
-            if (choice==4)
+            if (choice==100)
             {
                 break;
             }
@@ -112,6 +118,18 @@ public class Term_project {
             while(rs.next())
                 System.out.println(rs.getString(1)+" "+rs.getString(2)+
                         " "+rs.getString(3)+" "+rs.getDate(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void medical_View()
+    {
+        try {
+            Statement stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery("SELECT * FROM 진료과");
+            while(rs.next())
+                System.out.println(rs.getInt(1)+" "+rs.getString(2));
         } catch (SQLException e) {
             e.printStackTrace();
         }
