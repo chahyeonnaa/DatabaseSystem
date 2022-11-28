@@ -41,6 +41,10 @@ public class Term_project {
             System.out.println(" [우리병원 의료진]                              ");
             System.out.println("5. 전체 의료진 조회    6. 진료과목으로 의료진 검색하기");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println(" [예약]                                       ");
+            System.out.println("7. 예약하기           8. 진료과목 별 예약 현황 조회");
+            System.out.println("9. 의사 별 예약 현황 조회  10.날짜 별 예약 현황 조회 ");
+            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println("---------------------------------------------");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -51,6 +55,7 @@ public class Term_project {
                 case 4 : medical_depart_View();break;
                 case 5 : doctor_View();break;
                 case 6 : doctor_Search();break;
+                case 7 : Reserve();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -181,6 +186,33 @@ public class Term_project {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Reserve()
+    {
+        try {
+            System.out.println("환자 아이디, 이름, 진료과목 번호, 의사번호를 입력하세요.");
+
+            st = new StringTokenizer(br.readLine());
+
+            String id= st.nextToken();
+            String name= st.nextToken();
+            String depart_num= st.nextToken();
+            String doctor_num= st.nextToken();
+
+            PreparedStatement ps= con.prepareStatement("INSERT INTO 예약 (p_id,p_name,depart_number,doctor_num) values(?,?,?,?)");
+            ps.setString(1, id);
+            ps.setString(2, name);
+            ps.setInt(3, Integer.parseInt(depart_num));
+            ps.setString(4, doctor_num);
+            int result=ps.executeUpdate();
+            if(result==1)
+            {
+                System.out.println("예약이 정상적으로 완료되었습니다!");
+            }
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
