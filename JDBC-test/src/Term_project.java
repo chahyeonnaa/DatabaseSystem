@@ -38,7 +38,7 @@ public class Term_project {
             sc.nextLine();
             switch(choice) {
                 case 1 : User_Insert(); break;
-                //case 2 : Delete();break;
+                case 2 : User_list();break;
                 //case 3 : View();break;
                 default : System.out.println("종료");
             }
@@ -71,6 +71,35 @@ public class Term_project {
             ps.setDate(4, date1);
             ps.executeUpdate();
         } catch (SQLException | IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void User_list()
+    {
+        try {
+            System.out.println("등록을 확인하고자 하는 id를 입력해주세요.");
+            String id=sc.nextLine();
+
+            String sql ="SELECT * FROM 환자 WHERE id=?";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setNString(1, id);
+
+            ResultSet rs = pmt.executeQuery();
+
+
+            if(rs.next()) {
+                System.out.println(rs.getString(1) + " " + rs.getString(2) +
+                        " " + rs.getString(3) + " " + rs.getDate(4));
+            }
+            else
+            {
+                System.out.println("미등록 id 입니다.");
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
