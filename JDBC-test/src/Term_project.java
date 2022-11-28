@@ -39,7 +39,7 @@ public class Term_project {
             switch(choice) {
                 case 1 : User_Insert(); break;
                 case 2 : User_list();break;
-                //case 3 : View();break;
+                case 3 : User_View();break;
                 default : System.out.println("종료");
             }
             if (choice==4)
@@ -104,6 +104,18 @@ public class Term_project {
         }
     }
 
+    private void User_View()
+    {
+        try {
+            Statement stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery("SELECT * FROM 환자");
+            while(rs.next())
+                System.out.println(rs.getString(1)+" "+rs.getString(2)+
+                        " "+rs.getString(3)+" "+rs.getDate(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public static void main (String[]args) {
 
         Term_project tp = new Term_project();
