@@ -38,6 +38,9 @@ public class Term_project {
             System.out.println(" [우리병원 진료과목]                             ");
             System.out.println("4. 진료과목 조회                                ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println(" [우리병원 의료진]                              ");
+            System.out.println("5. 전체 의료진 조회    6. 진료과목으로 의료진 검색하기");
+            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println("---------------------------------------------");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -45,7 +48,8 @@ public class Term_project {
                 case 1 : User_Insert(); break;
                 case 2 : User_list();break;
                 case 3 : User_View();break;
-                case 4 : medical_View();break;
+                case 4 : medical_depart_View();break;
+                case 5 : doctor_View();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -123,13 +127,27 @@ public class Term_project {
         }
     }
 
-    private void medical_View()
+    private void medical_depart_View()
     {
         try {
             Statement stmt=con.createStatement();
             ResultSet rs=stmt.executeQuery("SELECT * FROM 진료과");
             while(rs.next())
                 System.out.println(rs.getInt(1)+" "+rs.getString(2));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void doctor_View()
+    {
+        try {
+            Statement stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery("SELECT depart_number, name, doctor_name, doctor_num FROM 진료과,의료진 " +
+                    "WHERE depart_number=number"+" ORDER BY name ASC");
+            while(rs.next())
+                System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "
+                        +rs.getString(3)+" "+ rs.getString(4));
         } catch (SQLException e) {
             e.printStackTrace();
         }
