@@ -50,6 +50,7 @@ public class Term_project {
                 case 3 : User_View();break;
                 case 4 : medical_depart_View();break;
                 case 5 : doctor_View();break;
+                case 6 : doctor_Search();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -148,6 +149,37 @@ public class Term_project {
             while(rs.next())
                 System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "
                         +rs.getString(3)+" "+ rs.getString(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void doctor_Search()
+    {
+        try {
+            System.out.println("진료 과목을 입력해주세요.");
+            String depart=sc.nextLine();
+
+            String sql ="SELECT depart_number, name, doctor_name FROM 진료과, 의료진 "+
+                    "WHERE name=? AND depart_number=number";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setNString(1, depart);
+
+            ResultSet rs = pmt.executeQuery();
+            int i=0;
+
+            while(rs.next()) {
+                System.out.println(rs.getInt(1) + " " + rs.getString(2)
+                        + " " + rs.getString(3));
+                i++;
+            }
+            if (i==0)
+            {
+                System.out.println("우리병원에 존재하지 않는 진료과목 입니다.");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
