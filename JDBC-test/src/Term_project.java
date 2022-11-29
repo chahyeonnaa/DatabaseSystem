@@ -40,10 +40,10 @@ public class Term_project {
             System.out.println("4. 진료과목 조회                                ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println(" [우리병원 의료진]                              ");
-            System.out.println("5. 전체 의료진 조회    6. 진료과목으로 의료진 검색하기");
+            System.out.println("5. 전체 의료진 조회    6. 의료진 조회 - 진료과목 검색");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println(" [예약]                                       ");
-            System.out.println("7. 예약하기           8. 진료과목 별 예약 현황 조회");
+            System.out.println("7. 예약하기           8. 예약 조회 - 진료과목 검색");
             System.out.println("9. 의사 별 예약 현황 조회  10.날짜 별 예약 현황 조회 ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println("---------------------------------------------");
@@ -57,6 +57,7 @@ public class Term_project {
                 case 5 : doctor_View();break;
                 case 6 : doctor_Search();break;
                 case 7 : Reserve();break;
+                case 8 : depart_Reserve_View();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -235,6 +236,37 @@ public class Term_project {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void depart_Reserve_View()
+    {
+        try {
+            System.out.println("진료과목명을 입력해주세요.");
+            String depart=sc.nextLine();
+            int i=0;
+
+            String sql ="select p_id, p_name, name, doctor_num from 예약, 진료과 where name=? and depart_number=number";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setNString(1, depart);
+
+            ResultSet rs = pmt.executeQuery();
+
+
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + " " + rs.getString(2) +
+                        " " + rs.getString(3) + " " + rs.getString(4));
+                i++;
+            }
+            if (i==0)
+            {
+                System.out.println("예약 내역이 없습니다.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
     public static void main (String[]args) {
 
