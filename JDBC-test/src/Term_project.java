@@ -44,7 +44,7 @@ public class Term_project {
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println(" [예약]                                       ");
             System.out.println("7. 예약하기           8. 예약 조회 - 진료과목 검색");
-            System.out.println("9. 의사 별 예약 현황 조회  10.날짜 별 예약 현황 조회 ");
+            System.out.println("9. 예약 조회 - 의사 검색 10.날짜 별 예약 현황 조회 ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println("---------------------------------------------");
             int choice = sc.nextInt();
@@ -58,6 +58,7 @@ public class Term_project {
                 case 6 : doctor_Search();break;
                 case 7 : Reserve();break;
                 case 8 : depart_Reserve_View();break;
+                case 9 : doctor_Reserve_View();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -266,7 +267,36 @@ public class Term_project {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    private void doctor_Reserve_View()
+    {
+        try {
+            System.out.println("의사 이름을 입력해주세요.");
+            String doctor_name=sc.nextLine();
+            int i=0;
+
+            String sql ="select ac.p_id, ac.p_name, ab.doctor_name from (select doctor_name,doctor_num from 의료진 where doctor_name=?) ab, 예약 ac where ab.doctor_num = ac.doctor_num";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setNString(1, doctor_name);
+
+            ResultSet rs = pmt.executeQuery();
+
+
+            while(rs.next()) {
+                System.out.println(rs.getString(1) + " " + rs.getString(2) +
+                        " " + rs.getString(3));
+                i++;
+            }
+            if (i==0)
+            {
+                System.out.println("예약 내역이 없습니다.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public static void main (String[]args) {
 
