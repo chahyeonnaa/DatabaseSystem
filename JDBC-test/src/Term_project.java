@@ -5,6 +5,7 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -192,6 +193,17 @@ public class Term_project {
 
     private void Reserve()
     {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("ajw2143","6");
+        map.put("jsh7394","6");
+
+        map.put("csh5123","8");
+        map.put("yjs8976","8");
+
+        map.put("kjw3642","13");
+        map.put("kys1204","13");
+        map.put("eej2341","1");
+
         try {
             System.out.println("환자 아이디, 이름, 진료과목 번호, 의사번호를 입력하세요.");
 
@@ -201,6 +213,12 @@ public class Term_project {
             String name= st.nextToken();
             String depart_num= st.nextToken();
             String doctor_num= st.nextToken();
+
+            if ((map.get(doctor_num))==null)
+            {
+                throw new Exception("진료과목 번호와 의사번호가 일치하지 않습니다!");
+            }
+
 
             PreparedStatement ps= con.prepareStatement("INSERT INTO 예약 (p_id,p_name,depart_number,doctor_num) values(?,?,?,?)");
             ps.setString(1, id);
@@ -213,6 +231,8 @@ public class Term_project {
                 System.out.println("예약이 정상적으로 완료되었습니다!");
             }
         } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
