@@ -46,6 +46,7 @@ public class Term_project {
             System.out.println("7. 예약하기           8. 예약 조회 - 진료과목 검색");
             System.out.println("9. 예약 조회 - 의사 검색 10. 예약 조회 - 날짜 검색 ");
             System.out.println("11. (진료과,날짜) 별 예약 실적 조회               ");
+            System.out.println("12. 의사별 예약 실적 전체 조회                    ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println("---------------------------------------------");
             int choice = sc.nextInt();
@@ -62,6 +63,7 @@ public class Term_project {
                 case 9 : doctor_Reserve_View();break;
                 case 10 : date_Reserve_View();break;
                 case 11 : Reserve_Performance_Depart_date();break;
+                case 12 : Reserve_Performance_Doctor();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -361,7 +363,20 @@ public class Term_project {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    private void Reserve_Performance_Doctor()
+    {
+        try {
+            Statement stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery("select c.name,doctor_name,a.doctor_num, count(*) from 예약 a, 의료진 b,진료과 c"+
+                    " where a.doctor_num=b.doctor_num and b.depart_number=c.number group by doctor_num order by count(*) desc");
+            while(rs.next())
+                System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "
+                        +rs.getInt(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public static void main (String[]args) {
 
