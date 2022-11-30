@@ -47,6 +47,7 @@ public class Term_project {
             System.out.println("9. 예약 조회 - 의사 검색 10. 예약 조회 - 날짜 검색 ");
             System.out.println("11. (진료과,날짜) 별 예약 실적 조회               ");
             System.out.println("12. 의사별 예약 실적 전체 조회                    ");
+            System.out.println("13. 날짜별 예약 실적 조회                     ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println("---------------------------------------------");
             int choice = sc.nextInt();
@@ -64,6 +65,7 @@ public class Term_project {
                 case 10 : date_Reserve_View();break;
                 case 11 : Reserve_Performance_Depart_date();break;
                 case 12 : Reserve_Performance_Doctor();break;
+                case 13 : Reserve_By_Date();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -377,6 +379,36 @@ public class Term_project {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void Reserve_By_Date()
+    {
+        try {
+            System.out.println("날짜를 입력해주세요.");
+            String date=sc.nextLine();
+
+            String sql ="select sum(abb.summ) from (select reserve_time, count(*) summ from 예약 where reserve_time like ? group by reserve_time) abb";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setString(1, "%"+date+"%");
+
+            ResultSet rs = pmt.executeQuery();
+
+
+            if(rs.next()) {
+                System.out.println(date+"의 예약 횟수는 "+rs.getInt(1)+" 입니다.");
+            }
+            else
+            {
+                System.out.println("조회 내역이 없습니다.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
     public static void main (String[]args) {
 
