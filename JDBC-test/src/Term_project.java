@@ -138,7 +138,7 @@ public class Term_project {
             PreparedStatement pmt = con.prepareStatement(sql);
 
             pmt.setNString(1, depart);
-
+            pmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,6 +164,7 @@ public class Term_project {
             pmt.setNString(2, id);
             pmt.setNString(3, de_number);
 
+            pmt.executeUpdate();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
@@ -578,15 +579,15 @@ public class Term_project {
             String doc_number= st.nextToken();
             String expense= st.nextToken();
 
-
-            String sql ="insert into 진료비 values (?,?,?,?)";
+            String sql ="insert into 진료비 (p_id, depart_number, doctor_num, expense) values(?,?,?,?)";
 
             PreparedStatement pmt = con.prepareStatement(sql);
 
-            pmt.setString(1, patient_id);
+            pmt.setNString(1, patient_id);
             pmt.setInt(2, Integer.parseInt(depart_num));
-            pmt.setString(3, doc_number);
+            pmt.setNString(3, doc_number);
             pmt.setInt(4, Integer.parseInt(expense));
+            pmt.executeUpdate();
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
