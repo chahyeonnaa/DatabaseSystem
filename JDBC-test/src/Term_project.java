@@ -64,6 +64,7 @@ public class Term_project {
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
             System.out.println(" [예약]                                       ");
             System.out.println("6. 예약하기      7. 예약 조회 - 진료과목, 예약일 검색");
+            System.out.println("8. 예약 변경                                   ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
 
             int choice = sc.nextInt();
@@ -77,6 +78,7 @@ public class Term_project {
                 case 5 : doctor_Search();break;
                 case 6 : Reserve();break;
                 case 7 : depart_Reserve_View();break;
+                case 8 : Change_Reserve();break;
             }
             if (choice==100)
             {
@@ -494,6 +496,39 @@ public class Term_project {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Change_Reserve()
+    {
+        try {
+            System.out.println("변경하려는 예약일자를 입력해주세요. (YYYY-MM-DD 00:00)");
+            String change_date=sc.nextLine();
+
+            System.out.println("환자 아이디, 변경 전 원래 예약일을 입력해주세요.");
+            st = new StringTokenizer(br.readLine());
+            String id= st.nextToken();
+            String origin_date= st.nextToken();
+
+            String sql ="update 예약 set reserve_time=? where p_id=? and reserve_time like ?";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setString(1, change_date);
+            pmt.setString(2, id);
+            pmt.setString(3, origin_date+"%");
+
+            int result=pmt.executeUpdate();
+            if(result==1)
+            {
+                System.out.println("예약이 정상적으로 변경되었습니다.");
+            }
+            else
+            {
+                System.out.println("예약 내역이 없습니다.");
+            }
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
