@@ -630,6 +630,32 @@ public class Term_project {
     }
     private void Payment()
     {
+        try {
+            System.out.println("진료를 받으신 과 이름, 환자 아이디를 입력해주세요.");
+            st = new StringTokenizer(br.readLine());
+            String depart_name= st.nextToken();
+            String id= st.nextToken();
+
+            String sql ="delete from 진료비 where depart_number=(select a.number from (select * from 진료과 where name=?) a) and p_id=?";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setString(1, depart_name);
+            pmt.setString(2, id);
+
+            int result=pmt.executeUpdate();
+            if(result==1)
+            {
+                System.out.println("수납이 완료되었습니다!");
+            }
+            else
+            {
+                System.out.println("진료비 청구 내역이 없습니다.");
+            }
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
 
     }
     public static void main (String[]args) {
