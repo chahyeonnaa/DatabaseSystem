@@ -58,17 +58,18 @@ public class Term_project {
             System.out.println("1. 환자 등록                     2. 환자 등록 확인");
             System.out.println(" [우리병원 진료과목]                             ");
             System.out.println("3. 진료과목 조회                                ");
-            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println("----------------------------------------------");
             System.out.println(" [우리병원 의료진]                              ");
             System.out.println("4. 전체 의료진 조회    5. 의료진 조회 - 진료과목 검색");
-            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println("----------------------------------------------");
             System.out.println(" [예약]                                       ");
             System.out.println("6. 예약하기      7. 예약 조회 - 진료과목, 예약일 검색");
             System.out.println("8. 예약 변경                                   ");
+            System.out.println("----------------------------------------------");
             System.out.println(" [진료비]                                      ");
             System.out.println("9. 진료비 조회                     10. 진료비 납부");
             System.out.println("100. 종료                                     ");
-            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println("----------------------------------------------");
 
             int choice = sc.nextInt();
             sc.nextLine();
