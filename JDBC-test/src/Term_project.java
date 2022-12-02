@@ -65,6 +65,7 @@ public class Term_project {
             System.out.println(" [예약]                                       ");
             System.out.println("6. 예약하기      7. 예약 조회 - 진료과목, 예약일 검색");
             System.out.println("8. 예약 변경                                   ");
+            System.out.println("100. 종료                                     ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
 
             int choice = sc.nextInt();
@@ -98,6 +99,8 @@ public class Term_project {
             System.out.println("6. (진료과,날짜) 별 세부 예약 실적 보기             ");
             System.out.println("7. 의사별 전체 예약 실적 보기                      ");
             System.out.println("8. 날짜별 예약 실적 횟수 보기                      ");
+            System.out.println("9. 예약 내역 삭제 - 날짜 입력                     ");
+            System.out.println("100. 관리자 모드 종료                            ");
             System.out.println("----------------------------------------------");
 
             int choice = sc.nextInt();
@@ -112,6 +115,7 @@ public class Term_project {
                 case 6 : Reserve_Performance_Depart_date();break;
                 case 7 :Reserve_Performance_Doctor();break;
                 case 8 :Reserve_By_Date();break;
+                case 9 :Reserve_Delete();break;
             }
             if (choice==100)
             {
@@ -529,6 +533,33 @@ public class Term_project {
                 System.out.println("예약 내역이 없습니다.");
             }
         } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Reserve_Delete()
+    {
+        try {
+            System.out.println("삭제할 날짜를 입력해주세요.");
+            String date=sc.nextLine();
+
+            String sql ="delete from 예약 where reserve_time like ?";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setString(1, date+"%");
+
+            int result=pmt.executeUpdate();
+            if(result==1)
+            {
+                System.out.println("삭제 완료");
+            }
+            else
+            {
+                System.out.println("예약 내역이 없습니다.");
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
