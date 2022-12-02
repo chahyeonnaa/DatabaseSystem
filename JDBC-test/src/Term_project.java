@@ -65,6 +65,8 @@ public class Term_project {
             System.out.println(" [예약]                                       ");
             System.out.println("6. 예약하기      7. 예약 조회 - 진료과목, 예약일 검색");
             System.out.println("8. 예약 변경                                   ");
+            System.out.println(" [진료비]                                      ");
+            System.out.println("9. 진료비 조회                     10. 진료비 납부");
             System.out.println("100. 종료                                     ");
             System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
 
@@ -80,6 +82,8 @@ public class Term_project {
                 case 6 : Reserve();break;
                 case 7 : depart_Reserve_View();break;
                 case 8 : Change_Reserve();break;
+                case 9 : Money_View();break;
+                case 10 : Payment();break;
             }
             if (choice==100)
             {
@@ -579,21 +583,55 @@ public class Term_project {
             String doc_number= st.nextToken();
             String expense= st.nextToken();
 
-            String sql ="insert into 진료비 (p_id, depart_number, doctor_num, expense) values(?,?,?,?)";
+
+            String sql ="insert into 진료비 values (?,?,?,?)";
 
             PreparedStatement pmt = con.prepareStatement(sql);
 
-            pmt.setNString(1, patient_id);
+            pmt.setString(1, patient_id);
             pmt.setInt(2, Integer.parseInt(depart_num));
-            pmt.setNString(3, doc_number);
+            pmt.setString(3, doc_number);
             pmt.setInt(4, Integer.parseInt(expense));
-            pmt.executeUpdate();
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void Money_View()
+    {
+        try {
+            System.out.println("진료를 받으신 과 이름, 환자 아이디를 입력해주세요.");
+            st = new StringTokenizer(br.readLine());
+            String depart_name= st.nextToken();
+            String id= st.nextToken();
+
+            String sql ="select * from 진료비 where depart_number=(select a.number from (select * from 진료과 where name=?) a) and p_id=?";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setString(1, depart_name);
+            pmt.setString(2, id);
+
+            ResultSet rs = pmt.executeQuery();
+
+            if(rs.next()) {
+                System.out.println("환자 아이디 : "+rs.getString(1) + "\n" + "진료 과목 번호 : "+ rs.getString(2) +
+                        "\n" + "담당 의사 : "+ rs.getString(3) + "\n" + "진료비: "+ rs.getInt(4)+"원");
+            }
+            else
+            {
+                System.out.println("조회 내역이 없습니다.");
+            }
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void Payment()
+    {
+
+    }
     public static void main (String[]args) {
 
         Term_project tp = new Term_project();
