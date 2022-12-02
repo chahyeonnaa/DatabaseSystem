@@ -100,6 +100,7 @@ public class Term_project {
             System.out.println("7. 의사별 전체 예약 실적 보기                      ");
             System.out.println("8. 날짜별 예약 실적 횟수 보기                      ");
             System.out.println("9. 예약 내역 삭제 - 날짜 입력                     ");
+            System.out.println("10. 진료비 청구                                 ");
             System.out.println("100. 관리자 모드 종료                            ");
             System.out.println("----------------------------------------------");
 
@@ -116,6 +117,7 @@ public class Term_project {
                 case 7 :Reserve_Performance_Doctor();break;
                 case 8 :Reserve_By_Date();break;
                 case 9 :Reserve_Delete();break;
+                case 10 :Charge_Money();break;
             }
             if (choice==100)
             {
@@ -560,6 +562,33 @@ public class Term_project {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Charge_Money()
+    {
+        try {
+            System.out.println("진료비를 청구하고자 하는 환자 아이디, 진료과목 번호, 의사 번호, 비용을 입력해주세요.");
+
+            st = new StringTokenizer(br.readLine());
+
+            String patient_id= st.nextToken();
+            String depart_num= st.nextToken();
+            String doc_number= st.nextToken();
+            String expense= st.nextToken();
+
+
+            String sql ="insert into 진료비 values (?,?,?,?)";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setString(1, patient_id);
+            pmt.setInt(2, Integer.parseInt(depart_num));
+            pmt.setString(3, doc_number);
+            pmt.setInt(4, Integer.parseInt(expense));
+
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
