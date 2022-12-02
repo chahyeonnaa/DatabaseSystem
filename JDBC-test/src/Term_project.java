@@ -32,40 +32,14 @@ public class Term_project {
     public void Basic() {
         while(true) {
             System.out.println("-----------------  DB 병원  ------------------");
-            System.out.println(" [회원가입 및 확인]                             ");
-            System.out.println("1. 사용자 등록                 2. 사용자 등록 확인");
-            System.out.println("3. 전체 사용자 조회                             ");
-            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
-            System.out.println(" [우리병원 진료과목]                             ");
-            System.out.println("4. 진료과목 조회                                ");
-            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
-            System.out.println(" [우리병원 의료진]                              ");
-            System.out.println("5. 전체 의료진 조회    6. 의료진 조회 - 진료과목 검색");
-            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
-            System.out.println(" [예약]                                       ");
-            System.out.println("7. 예약하기           8. 예약 조회 - 진료과목 검색");
-            System.out.println("9. 예약 조회 - 의사 검색 10. 예약 조회 - 날짜 검색 ");
-            System.out.println("11. (진료과,날짜) 별 예약 실적 조회               ");
-            System.out.println("12. 의사별 예약 실적 전체 조회                    ");
-            System.out.println("13. 날짜별 예약 실적 조회                     ");
-            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println("1. 환자 모드                       2. 관리자 모드");
+            System.out.println("100. 시스템 종료                               ");
             System.out.println("---------------------------------------------");
             int choice = sc.nextInt();
             sc.nextLine();
             switch(choice) {
-                case 1 : User_Insert(); break;
-                case 2 : User_list();break;
-                case 3 : User_View();break;
-                case 4 : medical_depart_View();break;
-                case 5 : doctor_View();break;
-                case 6 : doctor_Search();break;
-                case 7 : Reserve();break;
-                case 8 : depart_Reserve_View();break;
-                case 9 : doctor_Reserve_View();break;
-                case 10 : date_Reserve_View();break;
-                case 11 : Reserve_Performance_Depart_date();break;
-                case 12 : Reserve_Performance_Doctor();break;
-                case 13 : Reserve_By_Date();break;
+                case 1 : User();break;
+                case 2 : Manager();break;
                 default : System.out.println("종료");
             }
             if (choice==100)
@@ -75,6 +49,117 @@ public class Term_project {
         }
     }
 
+    private void User()
+    {
+        while(true)
+        {
+            System.out.println("-----------------  DB 병원  ------------------");
+            System.out.println(" [회원가입 및 확인]                             ");
+            System.out.println("1. 환자 등록                     2. 환자 등록 확인");
+            System.out.println(" [우리병원 진료과목]                             ");
+            System.out.println("3. 진료과목 조회                                ");
+            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println(" [우리병원 의료진]                              ");
+            System.out.println("4. 전체 의료진 조회    5. 의료진 조회 - 진료과목 검색");
+            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+            System.out.println(" [예약]                                       ");
+            System.out.println("6. 예약하기      7. 예약 조회 - 진료과목, 예약일 검색");
+            System.out.println("*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  ");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch(choice) {
+                case 1 : User_Insert(); break;
+                case 2 : User_list();break;
+                case 3 : medical_depart_View();break;
+                case 4 : doctor_View();break;
+                case 5 : doctor_Search();break;
+                case 6 : Reserve();break;
+                case 7 : depart_Reserve_View();break;
+            }
+            if (choice==100)
+            {
+                break;
+            }
+        }
+    }
+
+    private void Manager()
+    {
+        while(true)
+        {
+            System.out.println("-----------------  DB 병원  ------------------");
+            System.out.println("1. 전체 사용자 조회                             ");
+            System.out.println("2. 진료과목 추가                3. 의료진 추가    ");
+            System.out.println("4. 예약 조회 - 의사 검색    5. 예약 조회 - 날짜 검색 ");
+            System.out.println("6. (진료과,날짜) 별 세부 예약 실적 보기             ");
+            System.out.println("7. 의사별 전체 예약 실적 보기                      ");
+            System.out.println("8. 날짜별 예약 실적 횟수 보기                      ");
+            System.out.println("----------------------------------------------");
+
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch(choice) {
+                case 1 : User_View();break;
+                case 2 : Depart_add();break;
+                case 3 : Doctor_add();break;
+                case 4 : doctor_Reserve_View();break;
+                case 5 : date_Reserve_View();break;
+                case 6 : Reserve_Performance_Depart_date();break;
+                case 7 :Reserve_Performance_Doctor();break;
+                case 8 :Reserve_By_Date();break;
+            }
+            if (choice==100)
+            {
+                break;
+            }
+        }
+    }
+
+    private void Depart_add()
+    {
+        try {
+            System.out.println("추가하고자 하는 진료과목을 입력해주세요.");
+
+            String depart=sc.nextLine();
+
+            String sql ="insert into 진료과 (name) values (?)";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setNString(1, depart);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Doctor_add()
+    {
+        try {
+            System.out.println("추가하고자 하는 의료진 이름, 아이디, 진료과목 번호를 입력해주세요.");
+
+            st = new StringTokenizer(br.readLine());
+
+            String name= st.nextToken();
+            String id= st.nextToken();
+            String de_number= st.nextToken();
+
+
+            String sql ="insert into 의료진 values (?,?,?)";
+
+            PreparedStatement pmt = con.prepareStatement(sql);
+
+            pmt.setNString(1, name);
+            pmt.setNString(2, id);
+            pmt.setNString(3, de_number);
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void User_Insert() {
         try {
             System.out.println("id, 이름, 휴대폰 번호, 생년월일을 입력해주세요.");
@@ -249,29 +334,33 @@ public class Term_project {
     private void depart_Reserve_View()
     {
         try {
-            System.out.println("진료과목명을 입력해주세요.");
-            String depart=sc.nextLine();
-            int i=0;
+            System.out.println("진료과목명, 예약일을 입력해주세요.");
+            st = new StringTokenizer(br.readLine());
 
-            String sql ="select p_id, p_name, name, doctor_num from 예약, 진료과 where name=? and depart_number=number";
+            String depart= st.nextToken();
+            String date= st.nextToken();
+
+            String sql ="select p_id, p_name, name, doctor_num, reserve_time from 예약, 진료과 where name=? and depart_number=number and"+
+                    " reserve_time like ?";
 
             PreparedStatement pmt = con.prepareStatement(sql);
 
             pmt.setNString(1, depart);
+            pmt.setNString(2, "%"+date+"%");
 
             ResultSet rs = pmt.executeQuery();
 
-
+            int i=0;
             while(rs.next()) {
                 System.out.println(rs.getString(1) + " " + rs.getString(2) +
-                        " " + rs.getString(3) + " " + rs.getString(4));
+                        " " + rs.getString(3) + " " + rs.getString(4)+" "+ rs.getDate(5));
                 i++;
             }
             if (i==0)
             {
                 System.out.println("예약 내역이 없습니다.");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -407,9 +496,8 @@ public class Term_project {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
+
     public static void main (String[]args) {
 
         Term_project tp = new Term_project();
