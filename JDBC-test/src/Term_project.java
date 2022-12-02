@@ -105,6 +105,7 @@ public class Term_project {
             System.out.println("8. 날짜별 예약 실적 횟수 보기                      ");
             System.out.println("9. 예약 내역 삭제 - 날짜 입력                     ");
             System.out.println("10. 진료비 청구                                 ");
+            System.out.println("11. 전체 진료비 현황 조회(진료 과목 별)             ");
             System.out.println("100. 관리자 모드 종료                            ");
             System.out.println("----------------------------------------------");
 
@@ -122,6 +123,7 @@ public class Term_project {
                 case 8 :Reserve_By_Date();break;
                 case 9 :Reserve_Delete();break;
                 case 10 :Charge_Money();break;
+                case 11 :View_Money();break;
             }
             if (choice==100)
             {
@@ -657,6 +659,24 @@ public class Term_project {
             e.printStackTrace();
         }
 
+    }
+
+    private void View_Money()
+    {
+        try {
+            Statement stmt=con.createStatement();
+            ResultSet rs=stmt.executeQuery("select name, sum(expense) from 진료비,진료과 where depart_number=number group by name with rollup");
+
+            while(rs.next())
+                if (rs.getString(1)==null)
+                {
+                    System.out.println("합계 : "+ rs.getString(2)+" 원");
+                }
+                else
+                    System.out.println(rs.getString(1)+" "+rs.getString(2)+" 원");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public static void main (String[]args) {
 
