@@ -326,7 +326,7 @@ public class Term_project {
             String depart_num= st.nextToken();
             String doctor_num= st.nextToken();
 
-            if ((map.get(doctor_num))==null)
+            if (!((map.get(doctor_num)).equals(depart_num)))
             {
                 throw new Exception("진료과목 번호와 의사번호가 일치하지 않습니다!");
             }
@@ -462,7 +462,7 @@ public class Term_project {
 
             while(rs.next()) {
                 System.out.println(rs.getString(1) + " " + rs.getString(2) +
-                        " " + rs.getInt(3));
+                        " " + rs.getInt(3)+" 회");
                 i++;
             }
             if (i==0)
@@ -482,7 +482,7 @@ public class Term_project {
                     " where a.doctor_num=b.doctor_num and b.depart_number=c.number group by doctor_num order by count(*) desc");
             while(rs.next())
                 System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "
-                        +rs.getInt(4));
+                        +rs.getInt(4)+" 회");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -522,10 +522,11 @@ public class Term_project {
             System.out.println("변경하려는 예약일자를 입력해주세요. (YYYY-MM-DD 00:00)");
             String change_date=sc.nextLine();
 
-            System.out.println("환자 아이디, 변경 전 원래 예약일을 입력해주세요.");
-            st = new StringTokenizer(br.readLine());
-            String id= st.nextToken();
-            String origin_date= st.nextToken();
+            System.out.println("환자 아이디를 입력해주세요.");
+            String id=sc.nextLine();
+
+            System.out.println("변경 전 원래 예약일자를 입력해주세요. (YYYY-MM-DD 00:00)");
+            String origin_date=sc.nextLine();
 
             String sql ="update 예약 set reserve_time=? where p_id=? and reserve_time like ?";
 
@@ -544,7 +545,7 @@ public class Term_project {
             {
                 System.out.println("예약 내역이 없습니다.");
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -597,6 +598,8 @@ public class Term_project {
             pmt.setInt(2, Integer.parseInt(depart_num));
             pmt.setString(3, doc_number);
             pmt.setInt(4, Integer.parseInt(expense));
+
+            pmt.executeUpdate();
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
