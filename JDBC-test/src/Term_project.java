@@ -316,6 +316,9 @@ public class Term_project {
         map.put("kys1204","13");
         map.put("eej2341","1");
 
+        map.put("hms0707","2");
+        map.put("jhj0504","16");
+
         try {
             System.out.println("환자 아이디, 이름, 진료과목 번호, 의사번호를 입력하세요.");
 
